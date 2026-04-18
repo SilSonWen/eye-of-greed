@@ -209,10 +209,10 @@ function Index() {
       <footer className="relative z-10 border-t border-gold/30 py-6 text-center text-xs tracking-[0.3em] text-muted-foreground">
         𓂀 &nbsp;
         <a
-          href="https://greedy-lol-ok-b.cdm"
+          href="https://greeds-eye.lovable.app"
           className="hover:text-primary transition-colors"
         >
-          greedy-lol-ok-b.cdm
+          greeds-eye.lovable.app
         </a>
         &nbsp; · &nbsp; ALL THAT GLITTERS IS INDEXED &nbsp; 𓂀
       </footer>

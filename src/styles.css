@@ -217,8 +217,8 @@
   .coin {
     position: absolute;
     top: 0;
-    width: 18px;
-    height: 18px;
+    width: 10px;
+    height: 10px;
     border-radius: 9999px;
     background: radial-gradient(circle at 35% 30%, oklch(0.95 0.12 88), oklch(0.78 0.15 82) 55%, oklch(0.45 0.10 70) 100%);
     box-shadow: 0 0 8px oklch(0.82 0.16 85 / 0.6), inset 0 0 4px oklch(0.40 0.08 70 / 0.6);
@@ -231,7 +231,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 6px;
     color: oklch(0.30 0.05 70);
     font-family: var(--font-display);
   }

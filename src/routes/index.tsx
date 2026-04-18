@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import { Search, KeyRound, Loader2, ExternalLink } from "lucide-react";
 import logo from "@/assets/greeds-eye-logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiKeyDialog } from "@/components/ApiKeyDialog";
+import { braveSearch } from "@/server/brave-search";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -28,6 +30,7 @@ function Index() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const search = useServerFn(braveSearch);
 
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem(KEY_STORAGE) : null;
@@ -51,17 +54,12 @@ function Index() {
     setError(null);
     setSubmitted(q);
     try {
-      const res = await fetch("/api/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q, apiKey }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data?.error ?? "Search failed");
+      const data = await search({ data: { query: q, apiKey } });
+      if (!data.ok) {
+        setError(data.error);
         setResults([]);
       } else {
-        setResults(data.results ?? []);
+        setResults(data.results);
       }
     } catch (err) {
       setError("Could not reach the oracle.");

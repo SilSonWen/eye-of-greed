@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useMemo, useState } from "react";
-import { Search, KeyRound, Loader2, ExternalLink } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Search, Loader2, ExternalLink } from "lucide-react";
 import logo from "@/assets/greeds-eye-logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ApiKeyDialog } from "@/components/ApiKeyDialog";
 import { braveSearch } from "@/server/brave-search";
 
 export const Route = createFileRoute("/")({
@@ -20,11 +19,7 @@ interface SearchResult {
   profile?: string;
 }
 
-const KEY_STORAGE = "greeds-eye-brave-key";
-
 function Index() {
-  const [apiKey, setApiKey] = useState("");
-  const [keyDialogOpen, setKeyDialogOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -32,29 +27,15 @@ function Index() {
   const [error, setError] = useState<string | null>(null);
   const search = useServerFn(braveSearch);
 
-  useEffect(() => {
-    const stored = typeof window !== "undefined" ? localStorage.getItem(KEY_STORAGE) : null;
-    if (stored) setApiKey(stored);
-  }, []);
-
-  const saveKey = (key: string) => {
-    setApiKey(key);
-    localStorage.setItem(KEY_STORAGE, key);
-  };
-
   const onSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
     const q = query.trim();
     if (!q) return;
-    if (!apiKey) {
-      setKeyDialogOpen(true);
-      return;
-    }
     setLoading(true);
     setError(null);
     setSubmitted(q);
     try {
-      const data = await search({ data: { query: q, apiKey } });
+      const data = await search({ data: { query: q } });
       if (!data.ok) {
         setError(data.error);
         setResults([]);
@@ -88,18 +69,10 @@ function Index() {
       {/* Top bar */}
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Greed's Eye emblem" width={36} height={36} className="rounded-sm" />
+          <img src={logo} alt="Greed's Eye emblem" width={36} height={36} />
           <span className="display text-sm tracking-[0.3em] text-gold-gradient">GREED'S EYE</span>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setKeyDialogOpen(true)}
-          className="gap-2 text-muted-foreground hover:text-primary"
-        >
-          <KeyRound className="h-4 w-4" />
-          {apiKey ? "Key sealed" : "Add key"}
-        </Button>
+        <span className="display text-xs tracking-[0.4em] text-muted-foreground">𓋹 𓂀 𓊪</span>
       </header>
 
       <main className="relative z-10 mx-auto max-w-3xl px-4">
@@ -122,8 +95,8 @@ function Index() {
               <h1 className="display mt-6 text-5xl sm:text-7xl font-semibold text-gold-gradient">
                 Greed's Eye
               </h1>
-              <p className="mt-3 max-w-md text-base sm:text-lg italic text-muted-foreground">
-                The all-seeing oracle of the open web. Speak your desire, and gold shall be unearthed.
+              <p className="display mt-4 text-base sm:text-lg tracking-[0.25em] uppercase text-primary/80">
+                Ask and you shall receive
               </p>
               <div className="mt-4 flex gap-3 text-xs tracking-[0.4em] text-primary/50 animate-shimmer">
                 {hieroglyphs.slice(0, 7).map((g, i) => (
@@ -152,19 +125,6 @@ function Index() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Seek"}
             </Button>
           </div>
-          {!apiKey && (
-            <p className="mt-3 text-center text-xs text-muted-foreground">
-              No key bound to the eye —{" "}
-              <button
-                type="button"
-                onClick={() => setKeyDialogOpen(true)}
-                className="text-primary underline-offset-4 hover:underline"
-              >
-                offer your Brave API key
-              </button>
-              .
-            </p>
-          )}
         </form>
 
         {/* Results */}
@@ -222,13 +182,6 @@ function Index() {
       <footer className="relative z-10 border-t border-gold/30 py-6 text-center text-xs tracking-[0.3em] text-muted-foreground">
         𓂀 &nbsp; GREED'S EYE &nbsp; · &nbsp; ALL THAT GLITTERS IS INDEXED &nbsp; 𓂀
       </footer>
-
-      <ApiKeyDialog
-        open={keyDialogOpen}
-        onOpenChange={setKeyDialogOpen}
-        onSave={saveKey}
-        initialKey={apiKey}
-      />
     </div>
   );
 }

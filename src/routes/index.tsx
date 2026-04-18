@@ -196,10 +196,9 @@ function Index() {
                   </h2>
                   <ExternalLink className="h-3.5 w-3.5 shrink-0 text-primary/60 opacity-0 transition group-hover:opacity-100" />
                 </a>
-                <p
-                  className="mt-1 text-sm leading-relaxed text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: r.description }}
-                />
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {r.description}
+                </p>
               </li>
             ))}
           </ul>

@@ -207,4 +207,32 @@
     50% { filter: drop-shadow(0 0 40px oklch(0.78 0.15 82 / 0.7)); }
   }
   .animate-glow { animation: float-glow 4s ease-in-out infinite; }
+
+  @keyframes coin-fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+  .coin {
+    position: absolute;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 30%, oklch(0.95 0.12 88), oklch(0.78 0.15 82) 55%, oklch(0.45 0.10 70) 100%);
+    box-shadow: 0 0 8px oklch(0.82 0.16 85 / 0.6), inset 0 0 4px oklch(0.40 0.08 70 / 0.6);
+    animation: coin-fall linear infinite;
+  }
+  .coin::before {
+    content: "𓂀";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: oklch(0.30 0.05 70);
+    font-family: var(--font-display);
+  }
 }

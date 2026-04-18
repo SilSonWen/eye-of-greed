@@ -58,12 +58,39 @@ function Index() {
     [],
   );
 
+  const coins = useMemo(
+    () =>
+      Array.from({ length: 28 }).map((_, i) => ({
+        left: Math.random() * 100,
+        duration: 6 + Math.random() * 8,
+        delay: -Math.random() * 12,
+        scale: 0.6 + Math.random() * 1.1,
+      })),
+    [],
+  );
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Decorative background sigils */}
       <div className="pointer-events-none absolute inset-0 select-none opacity-[0.04]">
         <div className="display absolute -top-10 -left-10 text-[14rem] text-primary rotate-12">𓂀</div>
         <div className="display absolute bottom-0 -right-16 text-[18rem] text-primary -rotate-12">𓂀</div>
+      </div>
+
+      {/* Falling gold coins */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {coins.map((c, i) => (
+          <span
+            key={i}
+            className="coin"
+            style={{
+              left: `${c.left}%`,
+              animationDuration: `${c.duration}s`,
+              animationDelay: `${c.delay}s`,
+              transform: `scale(${c.scale})`,
+            }}
+          />
+        ))}
       </div>
 
       {/* Top bar */}
@@ -180,7 +207,14 @@ function Index() {
       </main>
 
       <footer className="relative z-10 border-t border-gold/30 py-6 text-center text-xs tracking-[0.3em] text-muted-foreground">
-        𓂀 &nbsp; GREED'S EYE &nbsp; · &nbsp; ALL THAT GLITTERS IS INDEXED &nbsp; 𓂀
+        𓂀 &nbsp;
+        <a
+          href="https://greedy-lol-ok-b.cdm"
+          className="hover:text-primary transition-colors"
+        >
+          greedy-lol-ok-b.cdm
+        </a>
+        &nbsp; · &nbsp; ALL THAT GLITTERS IS INDEXED &nbsp; 𓂀
       </footer>
     </div>
   );

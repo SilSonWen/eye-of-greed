@@ -187,8 +187,6 @@ function Index() {
                 </div>
                 <a
                   href={r.url}
-                  target="_blank"
-                  rel="noreferrer"
                   className="mt-1 flex items-baseline gap-2"
                 >
                   <h2 className="display text-lg font-medium text-foreground transition group-hover:text-primary">

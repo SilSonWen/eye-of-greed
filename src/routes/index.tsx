@@ -5,7 +5,7 @@ import { Search, Loader2, ExternalLink } from "lucide-react";
 import logo from "@/assets/greeds-eye-logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { braveSearch } from "@/server/brave-search";
+import { searchProxy } from "@/server/search-proxy";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,7 +25,7 @@ function Index() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const search = useServerFn(braveSearch);
+  const search = useServerFn(searchProxy);
 
   const onSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();

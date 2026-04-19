@@ -8,7 +8,7 @@ const InputSchema = z.object({
 // DuckDuckGo Instant Answer API + HTML results scraping fallback.
 // No API key required. We use the Instant Answer API for structured results
 // and supplement with RelatedTopics for web-style listings.
-export const braveSearch = createServerFn({ method: "POST" })
+export const searchProxy = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }) => {
     try {
